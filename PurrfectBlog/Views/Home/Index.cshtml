@@ -30,4 +30,22 @@
             <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
         </section>
     </div>
+
+    <!-- Register / Login Links -->
+    <section class="row mt-4">
+        @if (Session["AuthorId"] == null)
+        {
+        <p>
+            <a href="@Url.Action("Register", "Author")" class="btn btn-success">Register</a>
+            <a href="@Url.Action("Login", "Author")" class="btn btn-primary">Log In</a>
+        </p>
+        }
+        else
+        {
+        <p>
+            <a href="@Url.Action("Dashboard", "Author")" class="btn btn-info">Dashboard</a>
+            <a href="@Url.Action("Logout", "Author")" class="btn btn-danger">Log Out</a>
+        </p>
+        }
+    </section>
 </main>
