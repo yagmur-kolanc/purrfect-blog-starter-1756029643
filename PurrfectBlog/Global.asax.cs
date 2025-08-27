@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using PurrfectBlog.Data; // DbInitializer için
+using PurrfectBlog.Models;
 
 namespace PurrfectBlog
 {
@@ -16,6 +18,11 @@ namespace PurrfectBlog
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            
+            using (var context = new ApplicationDbContext())
+            {
+                DbInitializer.Initialize(context);
+            }
         }
     }
 }
