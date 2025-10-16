@@ -1,0 +1,79 @@
+﻿@{
+    var currentController = (ViewContext.RouteData.Values["controller"] as string) ?? "";
+    var currentAction = (ViewContext.RouteData.Values["action"] as string) ?? "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - 🐾The purrfect blog for Cat lovers🐾</title>
+
+    <!-- Bootstrap 3 CSS + your site styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/Site.css" />
+
+    <style>
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+        }
+
+        footer {
+            color: #777;
+            padding: 15px 0;
+        }
+
+        .body-content {
+            margin-top: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav"
+                        aria-expanded="false" aria-controls="main-nav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                @Html.ActionLink("🐾 Purrfect Blog", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+
+            <div id="main-nav" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="@(currentController == "Home" ? "active" : "")">
+                        @Html.ActionLink("Home", "Index", "Home")
+                    </li>
+                    <li class="@(currentController == "Blog" && currentAction == "Posts" ? "active" : "")">
+                        @Html.ActionLink("All Posts", "Posts", "Blog")
+                    </li>
+                    <li class="@(currentController == "Blog" && currentAction == "CreatePost" ? "active" : "")">
+                        @Html.ActionLink("Create Post", "CreatePost", "Blog")
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer class="text-center text-muted">
+            <p>&copy; @DateTime.Now.Year - Purrfect Blog 🐾</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

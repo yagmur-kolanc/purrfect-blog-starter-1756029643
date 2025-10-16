@@ -1,0 +1,50 @@
+﻿@model IEnumerable<PurrfectBlog.Models.BlogPost>
+@{
+    ViewBag.Title = "Home";
+}
+
+<div class="text-center mt-4">
+    <h1>Welcome to the World of Cats 🐾</h1>
+    <p class="lead text-muted">
+        Discover heartwarming stories, curious adventures, and daily life from the feline universe.
+    </p>
+    <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
+         alt="Cute cat gif"
+         style="width:180px; border-radius:50%; margin-top:15px;" />
+</div>
+
+<hr />
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">No posts yet. Be the first to share a story!</div>
+}
+else
+{
+    <h3 class="text-center mt-4 mb-4">Latest Posts</h3>
+
+    <div class="row">
+        @foreach (var p in Model)
+        {
+            var text = p.Content ?? "";
+            var preview = text.Length > 150 ? text.Substring(0, 150) + "..." : text;
+
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm" style="border-radius:15px;">
+                    <div class="card-body">
+                        <h4 class="card-title text-primary">
+                            @Html.ActionLink(p.Title, "Post", "Blog", new { id = p.Id }, null)
+                        </h4>
+                        <small class="text-muted">@p.CreatedAt.ToString("yyyy-MM-dd")</small>
+                        @if (!string.IsNullOrWhiteSpace(p.Category))
+                        {
+                            <span class="badge bg-info text-dark" style="margin-left:6px">@p.Category</span>
+                        }
+                        <p class="card-text mt-3">@preview</p>
+                        <a href="@Url.Action("Post","Blog", new { id = p.Id })" class="btn btn-outline-primary btn-sm">Read more →</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,21 @@
+﻿@model PurrfectBlog.Models.BlogPost
+@{
+    ViewBag.Title = Model.Title;
+}
+<h2>@Model.Title</h2>
+<p>
+    <small>@Model.CreatedAt.ToString("yyyy-MM-dd")</small>
+    @if (!string.IsNullOrWhiteSpace(Model.Category))
+    {
+        <span class="label label-default" style="margin-left:6px">@Model.Category</span>
+    }
+</p>
+<hr />
+
+<div>
+    @Html.Raw(System.Web.HttpUtility.HtmlEncode(Model.Content).Replace("\n", "<br/>"))
+</div>
+
+<p style="margin-top:15px">
+    <a class="btn btn-default" href="@Url.Action("Posts","Blog")">← Back to all posts</a>
+</p>
