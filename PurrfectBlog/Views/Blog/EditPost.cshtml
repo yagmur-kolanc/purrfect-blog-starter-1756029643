@@ -1,0 +1,34 @@
+﻿@model PurrfectBlog.Models.BlogPost
+@{
+    ViewBag.Title = "Edit Post";
+}
+
+<h2>Update</h2>
+<hr />
+
+@using (Html.BeginForm("EditPost", "Blog", FormMethod.Post, new { @class = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title)
+        @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Başlık" })
+        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Content)
+        @Html.TextAreaFor(m => m.Content, new { @class = "form-control", rows = 10, placeholder = "İçerik" })
+        @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Category)
+        @Html.TextBoxFor(m => m.Category, new { @class = "form-control", placeholder = "Kategori (isteğe bağlı)" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    @Html.ActionLink("İptal", "Post", "Blog", new { id = Model.Id }, new { @class = "btn btn-default", style = "margin-left:8px;" })
+}

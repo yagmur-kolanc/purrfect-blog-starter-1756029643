@@ -4,14 +4,29 @@
 }
 <h2>@Model.Title</h2>
 <p>
-    <small>@Model.CreatedAt.ToString("yyyy-MM-dd")</small>
+    <small>@Model.CreatedAt.ToString("MMMM dd, yyyy")</small>
     @if (!string.IsNullOrWhiteSpace(Model.Category))
     {
         <span class="label label-default" style="margin-left:6px">@Model.Category</span>
     }
 </p>
-<hr />
 
+<div class="btn-toolbar" style="margin: 12px 0;">
+    @Html.ActionLink("Edit", "EditPost", "Blog", new { id = Model.Id }, new { @class = "btn btn-warning" })
+
+    @using (Html.BeginForm("DeletePost", "Blog", FormMethod.Post, new
+    {
+        onsubmit = "return confirm('Are you sure you want to delete this post? This action cannot be undone.');",
+        style = "display:inline-block;margin-left:8px;"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("id", Model.Id)
+        <button type="submit" class="btn btn-danger">Delete</button>
+    }
+</div>
+
+<hr />
 <div>
     @Html.Raw(System.Web.HttpUtility.HtmlEncode(Model.Content).Replace("\n", "<br/>"))
 </div>
@@ -19,3 +34,4 @@
 <p style="margin-top:15px">
     <a class="btn btn-default" href="@Url.Action("Posts","Blog")">← Back to all posts</a>
 </p>
+

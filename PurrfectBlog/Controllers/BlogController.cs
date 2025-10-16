@@ -10,7 +10,7 @@ namespace PurrfectBlog.Controllers
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
-        // GET: /Posts  (RouteConfig'te PostsList rotasına bağlı)
+        // GET: /Posts  (mapped in RouteConfig as PostsList)
         public ActionResult Posts()
         {
             var posts = _db.BlogPosts
@@ -19,7 +19,7 @@ namespace PurrfectBlog.Controllers
             return View(posts);
         }
 
-        // GET: /Posts/{id}  (RouteConfig'te PostDetails rotasına bağlı)
+        // GET: /Posts/{id}  (mapped in RouteConfig as PostDetails)
         public ActionResult Post(int id)
         {
             var post = _db.BlogPosts.Find(id);
@@ -48,6 +48,59 @@ namespace PurrfectBlog.Controllers
             _db.SaveChanges();
 
             TempData["Message"] = "Post saved successfully.";
+            return RedirectToAction("Posts");
+        }
+
+        // GET: /Blog/EditPost/{id}
+        [HttpGet]
+        public ActionResult EditPost(int id)
+        {
+            var post = _db.BlogPosts.Find(id);
+            if (post == null) return HttpNotFound();
+            return View(post); // Views/Blog/EditPost.cshtml
+        }
+
+        // POST: /Blog/EditPost
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPost(BlogPost updatedPost)
+        {
+            // Server-side validation
+            if (!ModelState.IsValid)
+            {
+                return View(updatedPost);
+            }
+
+            var post = _db.BlogPosts.Find(updatedPost.Id);
+            if (post == null) return HttpNotFound();
+
+            // Update only allowed fields (overposting-safe)
+            post.Title = updatedPost.Title;
+            post.Content = updatedPost.Content;
+            post.Category = updatedPost.Category;
+
+            _db.SaveChanges();
+
+            TempData["ToastSuccess"] = "Post updated successfully.";
+            return RedirectToAction("Post", new { id = post.Id });
+        }
+
+        // POST: /Blog/DeletePost/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePost(int id)
+        {
+            var post = _db.BlogPosts.Find(id);
+            if (post == null)
+            {
+                TempData["ToastInfo"] = "Post not found or already deleted.";
+                return RedirectToAction("Posts");
+            }
+
+            _db.BlogPosts.Remove(post);
+            _db.SaveChanges();
+
+            TempData["ToastSuccess"] = "Post deleted successfully.";
             return RedirectToAction("Posts");
         }
 
