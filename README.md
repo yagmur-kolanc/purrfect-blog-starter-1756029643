@@ -56,13 +56,11 @@ It teaches developers how to design, validate, and structure real-world web proj
 
 
 ## 🖼️ Screenshots
-To give you a visual overview of the application, here are some screenshots:
+
 
 ### [Feature or Page Name]
-Description of Image
 
 ### [Another Feature or Page Name]
-Description of Image
 
 _Add more screenshots as needed. Ensure to replace placeholders with appropriate links and descriptions._
 
