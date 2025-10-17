@@ -62,7 +62,7 @@ It teaches developers how to design, validate, and structure real-world web proj
 
 ### [Another Feature or Page Name]
 
-_Add more screenshots as needed. Ensure to replace placeholders with appropriate links and descriptions._
+
 
 ---
 
